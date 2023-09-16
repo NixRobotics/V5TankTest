@@ -46,6 +46,7 @@ int intakeMotorStartCount = 0;
 #define INTAKE_STALL_SPEED 25
 #define INTAKE_STALL_COUNT 80 // Crude timer to see how long intake is not spinning, approx 2sec
 
+bool bDisableCatch = false; // set once we hit X on the controller, can finesse later
 #define CATCH_MAX_SPEED 25
 #define CATCH_MAX_ANGLE 90.0
 
@@ -182,6 +183,8 @@ void whenControllerXPressed() {
   IntakeMotor.stop(coast);
   ArmMotor.stop(coast);
   CatchMotor.stop(coast);
+  bDisableArm = true;
+  bDisableCatch = true;
 }
 
 // Deploy Catch
@@ -189,6 +192,10 @@ void whenControllerXPressed() {
 // Assumes there that catch is roughly horizonal at the start of the program
 void whenControllerUpPressed() {
   bDisableArm = true;
+
+  if (bDisableCatch) return;
+  
+  bDisableCatch = true;
   CatchMotor.setVelocity(CATCH_MAX_SPEED, vex::percent);
   CatchMotor.spinToPosition(CATCH_MAX_ANGLE, vex::degrees, false);
 }
