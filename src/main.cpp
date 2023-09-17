@@ -8,6 +8,7 @@
 /*    joystick. Adjust the deadband value for more accurate movements.        */
 /*----------------------------------------------------------------------------*/
 
+// TODO: Old, need to see if changing this table breaks anything
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
@@ -24,6 +25,7 @@ using namespace vex;
 
 #define CONTROLLER_DEADBAND 5.0 // Joystick deadband for arcade drive
 
+// TODO: Arm needs to be checked if it has stopped moving mid throw
 bool bDisableArm = false; // Stop arm from moving if catch is deployed
 int armMotorSpeed = 0;
 #define ARM_MAX_RAISE_SPEED 80
@@ -46,6 +48,8 @@ int intakeMotorStartCount = 0;
 #define INTAKE_STALL_SPEED 25
 #define INTAKE_STALL_COUNT 80 // Crude timer to see how long intake is not spinning, approx 2sec
 
+// TODO: Catch chatters when motor set to hold
+// TODO: Can check initialization by rotating backwards?
 bool bDisableCatch = false; // set once we hit X on the controller, can finesse later
 #define CATCH_MAX_SPEED 25
 #define CATCH_MAX_ANGLE 90.0
@@ -194,7 +198,7 @@ void whenControllerUpPressed() {
   bDisableArm = true;
 
   if (bDisableCatch) return;
-  
+
   bDisableCatch = true;
   CatchMotor.setVelocity(CATCH_MAX_SPEED, vex::percent);
   CatchMotor.spinToPosition(CATCH_MAX_ANGLE, vex::degrees, false);
