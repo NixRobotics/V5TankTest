@@ -8,16 +8,15 @@
 /*    joystick. Adjust the deadband value for more accurate movements.        */
 /*----------------------------------------------------------------------------*/
 
-// TODO: Old, need to see if changing this table breaks anything
-// ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
 // Controller1          controller
-// LeftMotor            motor         1
-// RightMotor           motor         10
-// ClawMotor            motor         3
-// ArmMotor             motor         8
-// ---- END VEXCODE CONFIGURED DEVICES ----
+// LeftMotor            motor         16
+// RightMotor           motor         17
+// IntakeMotor          motor         14
+// ArmMotor             motor         18
+// CatchMotor           motor         15
+// NOTE: PUTT-PUTT PORT 19 is DEAD - do not use
 
 #include "vex.h"
 
