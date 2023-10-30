@@ -9,6 +9,8 @@ extern motor RightMotor;
 extern motor IntakeMotor;
 extern motor ArmMotor;
 extern motor CatchMotor;
+extern limit ArmLimit;
+extern limit CatchLimit;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

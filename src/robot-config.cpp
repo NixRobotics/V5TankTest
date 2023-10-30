@@ -15,6 +15,8 @@ motor RightMotor = motor(PORT17, ratio18_1, true);
 motor IntakeMotor = motor(PORT14, ratio18_1, false);
 motor ArmMotor = motor(PORT18, ratio36_1, false);
 motor CatchMotor = motor(PORT15, ratio18_1, true);
+limit ArmLimit = limit(Brain.ThreeWirePort.A);
+limit CatchLimit = limit(Brain.ThreeWirePort.B);
 
 // VEXcode generated functions
 
@@ -25,4 +27,5 @@ motor CatchMotor = motor(PORT15, ratio18_1, true);
  */
 void vexcodeInit(void) {
   // nothing to initialize
+  wait(100, msec);
 }

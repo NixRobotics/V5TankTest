@@ -16,6 +16,8 @@
 // IntakeMotor          motor         14
 // ArmMotor             motor         18
 // CatchMotor           motor         15
+// ArmLimit             limit         A
+// CatchLimit           limit         B
 // NOTE: PUTT-PUTT PORT 19 is DEAD - do not use
 
 #include "vex.h"
@@ -217,13 +219,40 @@ int main() {
   Brain.Screen.print("## PUTT-PUTT ##");
   Brain.Screen.newLine();
 
-  Brain.Screen.print("Velocity: %.2f", IntakeMotor.velocity(percent));
+  Brain.Screen.print("Intake Velocity: %.2f", IntakeMotor.velocity(percent));
   Brain.Screen.newLine();
- 
+
+  int armLimitActivated = ArmLimit.value();
+  if (armLimitActivated == 0) {
+    printf("arm limit = %d\n", armLimitActivated);
+    Brain.Screen.clearScreen(color::red);
+    Brain.Screen.clearLine(2);
+    Brain.Screen.setCursor(2 , 0);
+    Brain.Screen.print("ARM IS NOT IN CORRECT POSITION");
+    Brain.Screen.newLine();
+
+    bDisableArm = true;
+    bDisableCatch = true;
+  }
+
+  int catchLimitActivated = CatchLimit.value();
+  if (catchLimitActivated == 0) {
+    printf("catch limit = %d\n", catchLimitActivated);
+    if (armLimitActivated != 0) Brain.Screen.clearScreen(color::red);
+    Brain.Screen.clearLine(3);
+    Brain.Screen.setCursor(3 , 0);
+    Brain.Screen.print("CATCH IS NOT IN CORRECT POSITION");
+    Brain.Screen.newLine();
+
+    bDisableArm = true;
+    bDisableCatch = true;
+  }
+
+
   ArmMotor.setStopping(coast);
   IntakeMotor.setStopping(coast);
   CatchMotor.setStopping(hold);
-
+      
   // IntakeMotor.setMaxTorque(100, vex::percent);
 
   // Install callbacks for buttons
