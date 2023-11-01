@@ -47,7 +47,7 @@ int intakeMotorSpeed = 0;
 bool intakeMotorStart = false;
 int intakeMotorStartCount = 0;
 #define INTAKE_STALL_SPEED 25
-#define INTAKE_STALL_COUNT 80 // Crude timer to see how long intake is not spinning, approx 2sec
+#define INTAKE_STALL_COUNT 800 // Crude timer to see how long intake is not spinning, approx 20sec
 
 // TODO: Catch chatters when motor set to hold
 // TODO: Can check initialization by rotating backwards?

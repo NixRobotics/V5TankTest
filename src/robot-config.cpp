@@ -18,6 +18,8 @@ motor CatchMotor = motor(PORT15, ratio18_1, true);
 limit ArmLimit = limit(Brain.ThreeWirePort.A);
 limit CatchLimit = limit(Brain.ThreeWirePort.B);
 
+// https://www.vexforum.com/t/vexcode-motor-groups-and-drivetrain-example/69161
+
 // VEXcode generated functions
 
 /**
