@@ -58,6 +58,13 @@ bool bDisableCatch = false; // set once we hit X on the controller, can finesse 
 // Main loop runrate, approx 25ms
 int loopCount = 0;
 
+bool armRetracted()
+{
+  printf("%d %lf\n", ArmLimit.value(), ArmMotor.position(vex::degrees));
+  if (ArmLimit.value() == 1 || ArmMotor.position(vex::degrees) > ARM_MIN_DEADBAND_ANGLE) return true;
+  return false;
+}
+
 // Raise Arm
 // This is positive direction
 void whenControllerL1Pressed() {
@@ -196,6 +203,15 @@ void whenControllerXPressed() {
 // NOTE!!! - Must disable arm once this is done
 // Assumes there that catch is roughly horizonal at the start of the program
 void whenControllerUpPressed() {
+  if (armRetracted()) {
+    Brain.Screen.clearScreen(color::red);
+    Brain.Screen.clearLine(3);
+    Brain.Screen.setCursor(3 , 0);
+    Brain.Screen.print("CATCH CAN NOT BE DEPLOYED");
+    Brain.Screen.newLine();
+    return;
+  }
+
   bDisableArm = true;
 
   if (bDisableCatch) return;
@@ -267,7 +283,9 @@ int main() {
 
   printf("START-- Arm motor pos = %f deg, torque = %f Nm, current = %f A\n", ArmMotor.position(vex::degrees), ArmMotor.torque(vex::Nm), ArmMotor.current(vex::amp));
 
+  // Controller1.Screen.clearScreen();
   // Main loop, run at around 25ms
+  printf("lm %lf, rm %lf\n", LeftMotor.position(vex::degrees), RightMotor.position(vex::degrees));
   while (true) {
 
     /**/ // Start drive train
@@ -275,10 +293,11 @@ int main() {
     // DriveTrain - simple arcade drive using left joystick
     // Get the velocity percentage of the left motor. (Axis3 + Axis4)
     int leftMotorSpeed =
-        Controller1.Axis3.position() + Controller1.Axis4.position();
+      Controller1.Axis3.position() + Controller1.Axis4.position();
     // Get the velocity percentage of the right motor. (Axis3 - Axis4)
     int rightMotorSpeed =
-        Controller1.Axis3.position() - Controller1.Axis4.position();
+      Controller1.Axis3.position() - Controller1.Axis4.position();
+    // Get the velocity percentage of the right motor. (Axis3 - Axis4)
 
     // Set the speed of the left motor. If the value is less than the deadband,
     // set it to zero.
@@ -340,8 +359,9 @@ int main() {
 /**/
 
     if ((loopCount % 80) == 0) {
-      printf("Arm motor pos = %f deg, torque = %f Nm, current = %f A\n", ArmMotor.position(vex::degrees), ArmMotor.torque(vex::Nm), ArmMotor.current(vex::amp));
-    }
+        printf("Arm motor pos = %f deg, torque = %f Nm, current = %f A\n", ArmMotor.position(vex::degrees), ArmMotor.torque(vex::Nm), ArmMotor.current(vex::amp));
+        printf("lm %lf, rm %lf\n", LeftMotor.position(vex::degrees), RightMotor.position(vex::degrees));
+      }
 
     double armTorque = ArmMotor.torque(vex::Nm);
     if (fabs(armTorque) > fabs(armMaxTorque)) {
